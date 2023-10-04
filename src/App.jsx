@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { Children, useState } from "react";
 import Cards from "./Cards";
 
 function App() {
+  const [foodItems, setFoodItems] = useState();
+  const [dropDownConut, setdropDownConut] = useState(2);
+
   let data = [
     {
       strMeal: "Baked salmon with fennel & tomatoes",
@@ -173,24 +176,58 @@ function App() {
     },
   ];
 
+  const handleOnClick = (event)=>{
+    console.log(event.target.value)
+    let value = event.target.value
+    setdropDownConut(value)
+  }
+
+  
+
+ let result =  data.filter((item,index)=>{
+  if(index < dropDownConut){
+    return true
+  }
+    
+  })
+  
+
+  // filter
+
+
   return (
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        alignItems: "center",
-        justifyContent: "center",
-        margin: "20px 0px",
-      }}
-    >
-      {data.map(({ strMeal, strMealThumb, idMeal }) => {
-        return (
-          <>
-            <Cards para={idMeal} title={strMeal} image={strMealThumb} />
-          </>
-        );
-      })}
-    </div>
+    <>
+      <div className="drop-down-container">
+        <select name="" id="" onClick={handleOnClick}>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+        </select>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          justifyContent: "center",
+          margin: "0px 30px 0px 30px",
+        }}
+      >
+        {result.map(({ strMeal, strMealThumb, idMeal }) => {
+          return (
+            <>
+              <Cards para={idMeal} title={strMeal} image={strMealThumb} />
+            </>
+          );
+        })}
+      </div>
+    </>
   );
 }
 
