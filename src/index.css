@@ -2,6 +2,10 @@
   margin: 0px;
   padding: 0px;
 }
+
+
+
+
 .card{
   width: 200px;
   height: fit-content;
@@ -36,11 +40,8 @@
   padding: 20px 20px;
   align-items: center;
 }
-.header-logo img{
-  width: 80px;
-  border-radius: 20px;
-  height: auto;
-}
+
+
 .header-links ul{
   display: flex;
   list-style: none;
@@ -78,4 +79,8 @@
   background-color: #141313;
   color: aliceblue;
   border: none;
+}
+
+.header > h2{
+  color: aliceblue;
 }

@@ -1,9 +1,11 @@
 import React, { Children, useState } from "react";
 import Cards from "./Cards";
+import { Puff } from "react-loader-spinner";
 
 function App() {
   const [foodItems, setFoodItems] = useState();
   const [dropDownConut, setdropDownConut] = useState(2);
+  const [loading, setLoading] = useState(false);
 
   let data = [
     {
@@ -176,29 +178,30 @@ function App() {
     },
   ];
 
-  const handleOnClick = (event)=>{
-    console.log(event.target.value)
-    let value = event.target.value
-    setdropDownConut(value)
-  }
+  const handleOnClick = (event) => {
+    setLoading(true)
+    let value = event.target.value === "" ? data.length : event.target.value;
+    console.log(value);
+    setdropDownConut(value);
+   setTimeout(() => {
+    setLoading(false)
+   }, 900);
 
-  
+  };
 
- let result =  data.filter((item,index)=>{
-  if(index < dropDownConut){
-    return true
-  }
-    
-  })
-  
+  let result = data.filter((item, index) => {
+    if (index < dropDownConut) {
+      return true;
+    }
+  });
 
   // filter
-
 
   return (
     <>
       <div className="drop-down-container">
         <select name="" id="" onClick={handleOnClick}>
+          <option value="">None</option>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -210,32 +213,54 @@ function App() {
         </select>
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          justifyContent: "center",
-          margin: "0px 30px 0px 30px",
-        }}
-      >
-        {result.map(({ strMeal, strMealThumb, idMeal }) => {
-          return (
-            <>
-              <Cards para={idMeal} title={strMeal} image={strMealThumb} />
-            </>
-          );
-        })}
-      </div>
+      {
+        loading ? (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div className="" style={{margin:"30px"}}>
+              <Puff
+                height="80"
+                width="80"
+                radius={1}
+                color="#4fa94d"
+                ariaLabel="puff-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+              />
+            </div>
+          </div>
+        ) : (
+          <>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "0px 30px 0px 30px",
+              }}
+            >
+              {result.map(({ strMeal, strMealThumb, idMeal }) => {
+                return (
+                  <>
+                    <Cards para={idMeal} title={strMeal} image={strMealThumb} />
+                  </>
+                );
+              })}
+            </div>
+          </>
+        )
+
+        // <Puff/>
+      }
     </>
   );
 }
 
 export default App;
-
-//hooks
-// useState
-// useEffect
-// props
-// api
-// foodapp
