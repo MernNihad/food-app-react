@@ -2,6 +2,10 @@ import React, { Children, useState } from "react";
 import Cards from "./Cards";
 import { Puff } from "react-loader-spinner";
 
+
+
+export const DataContext = React.createContext()
+
 function App() {
   const [index, setIndex] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -231,13 +235,13 @@ function App() {
               margin: "0px 30px 0px 30px",
             }}
           >
+            <DataContext.Provider value={data}>
             {indexingData.map(({ strMeal, strMealThumb, idMeal }) => {
               return (
-                <>
-                  <Cards para={idMeal} title={strMeal} image={strMealThumb} />
-                </>
-              );
-            })}
+                  <Cards setLoading={setLoading} para={idMeal} title={strMeal} image={strMealThumb} />
+                  );
+                })}
+                </DataContext.Provider>
           </div>
 
           <div className="index-container">
