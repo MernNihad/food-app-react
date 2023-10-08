@@ -84,3 +84,27 @@
 .header > h2{
   color: aliceblue;
 }
+
+
+/* index numbers */
+
+.index-container{
+  display: flex;
+    place-content: center;
+    height: 20vh;
+    align-items: center;
+}
+.indexpage{
+  padding: 10px 15px;
+  background-color: #141313;
+  margin: 2px;
+}
+.indexpage > p{
+  color: aliceblue;
+}
+.indexpage:hover{
+  background-color: #2f2929;
+}
+.indexpage.active{
+  background-color: #2f2929;
+}

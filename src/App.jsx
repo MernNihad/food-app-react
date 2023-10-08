@@ -3,8 +3,7 @@ import Cards from "./Cards";
 import { Puff } from "react-loader-spinner";
 
 function App() {
-  const [foodItems, setFoodItems] = useState();
-  const [dropDownConut, setdropDownConut] = useState(2);
+  const [index, setIndex] = useState(1);
   const [loading, setLoading] = useState(false);
 
   let data = [
@@ -178,87 +177,88 @@ function App() {
     },
   ];
 
-  const handleOnClick = (event) => {
-    setLoading(true)
-    let value = event.target.value === "" ? data.length : event.target.value;
-    console.log(value);
-    setdropDownConut(value);
-   setTimeout(() => {
-    setLoading(false)
-   }, 900);
+  const perPage = 4;
 
+  const startingIndex = (index - 1) * perPage;
+  const endingIndex = index * perPage;
+
+  const indexingData = data.slice(startingIndex, endingIndex);
+
+  let indexArray = [];
+
+  for (let i = 1; i <= data.length / perPage; i++) {
+    console.log(i);
+    indexArray.push(i);
+  }
+
+  const handleIndexOnClick = (e) => {
+    setLoading(true);
+    setIndex(e);
+    setLoading(false);
   };
-
-  let result = data.filter((item, index) => {
-    if (index < dropDownConut) {
-      return true;
-    }
-  });
-
-  // filter
 
   return (
     <>
-      <div className="drop-down-container">
-        <select name="" id="" onClick={handleOnClick}>
-          <option value="">None</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-        </select>
-      </div>
-
-      {
-        loading ? (
+      {loading ? (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div className="" style={{ margin: "30px" }}>
+            <Puff
+              height="80"
+              width="80"
+              radius={1}
+              color="#4fa94d"
+              ariaLabel="puff-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+            />
+          </div>
+        </div>
+      ) : (
+        <>
           <div
             style={{
               display: "flex",
+              flexWrap: "wrap",
               alignItems: "center",
               justifyContent: "center",
+              margin: "0px 30px 0px 30px",
             }}
           >
-            <div className="" style={{margin:"30px"}}>
-              <Puff
-                height="80"
-                width="80"
-                radius={1}
-                color="#4fa94d"
-                ariaLabel="puff-loading"
-                wrapperStyle={{}}
-                wrapperClass=""
-                visible={true}
-              />
-            </div>
+            {indexingData.map(({ strMeal, strMealThumb, idMeal }) => {
+              return (
+                <>
+                  <Cards para={idMeal} title={strMeal} image={strMealThumb} />
+                </>
+              );
+            })}
           </div>
-        ) : (
-          <>
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                alignItems: "center",
-                justifyContent: "center",
-                margin: "0px 30px 0px 30px",
-              }}
-            >
-              {result.map(({ strMeal, strMealThumb, idMeal }) => {
+
+          <div className="index-container">
+            <div className="index-container">
+              {indexArray.map((item, index_of) => {
                 return (
                   <>
-                    <Cards para={idMeal} title={strMeal} image={strMealThumb} />
+                    <div
+                      key={index_of}
+                      onClick={() => handleIndexOnClick(item)}
+                      className={`indexpage ${item === index ? "active" : ""}`}
+                    >
+                      <p className="">{item}</p>
+                    </div>
                   </>
                 );
               })}
             </div>
-          </>
-        )
-
-        // <Puff/>
-      }
+          </div>
+        </>
+      )}
     </>
   );
 }
